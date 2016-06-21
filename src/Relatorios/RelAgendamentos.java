@@ -149,7 +149,7 @@ public class RelAgendamentos extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Relação de Médicos");
+        setTitle("Relação de Agendamentos");
         setResizable(false);
         setType(java.awt.Window.Type.UTILITY);
 

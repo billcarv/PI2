@@ -104,7 +104,7 @@ public class RelClientes extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Relação de Médicos");
+        setTitle("Relação de Clientes");
         setResizable(false);
         setType(java.awt.Window.Type.UTILITY);
 
