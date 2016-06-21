@@ -42,6 +42,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Transferir"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="mnuAgendamentoTransferirMouseClicked"/>
+          </Events>
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenu5">
         </Menu>

@@ -250,6 +250,11 @@ public class TelaAgendamento extends javax.swing.JInternalFrame {
         mnuAgendamento.add(mnuAgendamentoCancelar);
 
         mnuAgendamentoTransferir.setText("Transferir");
+        mnuAgendamentoTransferir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mnuAgendamentoTransferirMouseClicked(evt);
+            }
+        });
         mnuAgendamento.add(mnuAgendamentoTransferir);
         mnuAgendamento.add(jMenu5);
 
@@ -529,7 +534,37 @@ public class TelaAgendamento extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_mnuAgendamentoCancelarMouseClicked
 
-
+    private void mnuAgendamentoTransferirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mnuAgendamentoTransferirMouseClicked
+        int x = tabela.getSelectedRow();
+        Object codigo = modelo.getValueAt(x,0);
+        Object data = modelo.getValueAt(x,3); 
+        Object reserva = modelo.getValueAt(x,6);
+        int dialogButton =  JOptionPane.showConfirmDialog(null,"Esta rotina "
+                + "permite alterar status de agendamentos que estão em espera! "
+                + " Deseja Prosseguir?","ATENÇÃO...",JOptionPane.YES_NO_OPTION);
+        if(dialogButton==0){
+            String rsv = (String) reserva;
+            if(rsv.charAt(0)=='S'){
+                JOptionPane.showMessageDialog(null, "Agendamento "+codigo+" já"
+                            + " é  um agendamento reservado!!!");
+            }else{
+                //Verifica se o agendamento principal foi cancelado 
+                if(verificaCancelamento((String) data)){
+                    con.updateSQL("UPDATE agendamento SET reservado = 'S',"
+                            + " espera = 'N', status_agendamento_codigo = 1 WHERE "
+                            + " codigo ="+Integer.parseInt((String) codigo));
+                    JOptionPane.showMessageDialog(null, "Alteração realizada com "
+                            + "sucesso para o agendamento "+codigo+" ");
+                    this.dispose();
+                }
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Nenhuma alteração realizada no"
+                    + " agendamento "+codigo);
+        }
+        
+    }//GEN-LAST:event_mnuAgendamentoTransferirMouseClicked
+   
     private boolean verificaReserva(String data){
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
         boolean ret = false;
@@ -550,6 +585,24 @@ public class TelaAgendamento extends javax.swing.JInternalFrame {
         return ret;
     }
 
+    
+    private boolean verificaCancelamento(String data){
+        boolean ret = false;
+        String dia =  data.substring(6,10)+"-"+data.substring(3,5)+"-"+data.substring(0,2)
+                +" "+data.substring(11)+":00.0";
+        String consulta = "SELECT * from agendamento WHERE dt_hr_inicio = '"+dia+"' ";
+               consulta += "AND reservado = 'S' and deletado = '*' ";
+        con.executeSQL(consulta);
+        try {
+            if(con.resultset.first()){
+                ret = true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Agendamento.class.getName()).log(Level.SEVERE, null, ex);
+        }    
+        return ret;
+    }  
+    
     
     private void desabilitaPesquisa(){
         lblPesquisaAgendamento.setVisible(false);
