@@ -544,7 +544,7 @@ public class TelaAgendamento extends javax.swing.JInternalFrame {
                 + " Deseja Prosseguir?","ATENÇÃO...",JOptionPane.YES_NO_OPTION);
         if(dialogButton==0){
             String rsv = (String) reserva;
-            if(rsv.charAt(0)=='S'){
+            if(rsv.charAt(0)=='S'){//Verifica se o usuário tentou alterar um agendamento já efetivo
                 JOptionPane.showMessageDialog(null, "Agendamento "+codigo+" já"
                             + " é  um agendamento reservado!!!");
             }else{
